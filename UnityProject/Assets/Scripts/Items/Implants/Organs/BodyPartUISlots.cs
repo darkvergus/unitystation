@@ -26,6 +26,7 @@ namespace HealthV2
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealthMasterBase)
 		{
+			StartCoroutine(RelatedStorageAddRemove(false, livingHealthMasterBase));
 			var dynamicItemStorage = livingHealthMasterBase.GetComponent<DynamicItemStorage>();
 			if (dynamicItemStorage != null)
 			{
@@ -33,9 +34,24 @@ namespace HealthV2
 			}
 		}
 
+
+		private IEnumerator RelatedStorageAddRemove(bool ToAdd, LivingHealthMasterBase livingHealthMasterBase)
+		{
+			yield return null;
+			if (ToAdd)
+			{
+				RelatedStorage.ServerAddObserverPlayer(livingHealthMasterBase.gameObject);
+			}
+			else
+			{
+				RelatedStorage.ServerRemoveObserverPlayer(livingHealthMasterBase.gameObject);
+			}
+		}
+
 		public override void HealthMasterSet()
 		{
 			if (RelatedPart.HealthMaster == null) return;
+			StartCoroutine(RelatedStorageAddRemove(true, RelatedPart.HealthMaster));
 			var dynamicItemStorage = RelatedPart.HealthMaster.GetComponent<DynamicItemStorage>();
 			if (dynamicItemStorage != null)
 			{

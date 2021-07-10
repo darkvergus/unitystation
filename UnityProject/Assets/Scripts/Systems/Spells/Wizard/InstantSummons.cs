@@ -130,8 +130,7 @@ namespace Systems.Spells.Wizard
 		{
 			if (item.TryGetComponent<Pickupable>(out var pickupable) && pickupable.ItemSlot != null)
 			{
-				var RootStorage = pickupable.ItemSlot.GetRootStorageOrPlayer();
-				return RootStorage.gameObject;
+				return pickupable.ItemSlot.GetRootStorage().gameObject;
 			}
 
 			return item;

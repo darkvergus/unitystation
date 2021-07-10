@@ -13,7 +13,7 @@ public class HandsController : MonoBehaviour
 
 	public DoubleHandController DoubleHandController;
 
-	public HashSet<DoubleHandController> DoubleHandControllers = new HashSet<DoubleHandController>();
+	public List<DoubleHandController> DoubleHandControllers = new List<DoubleHandController>();
 
 	public List<DoubleHandController> AvailableLeftHand = new List<DoubleHandController>();
 
@@ -94,19 +94,10 @@ public class HandsController : MonoBehaviour
 
 	public void RemoveAllHands()
 	{
-		foreach (var HandStorage in DoubleHandControllers.ToArray())
+		foreach (var HandStorage in StorageToHands.Keys.ToArray())
 		{
-			Destroy(HandStorage.gameObject);
-
+			RemoveHand(HandStorage);
 		}
-		StorageToHands.Clear();
-		AvailableLeftHand.Clear();
-		AvailableRightHand.Clear();
-		DoubleHandControllers.Clear();
-		activeDoubleHandController = null;
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand(0, NamedSlot.none);
-		PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = null;
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CurrentActiveHand = NamedSlot.none;
 	}
 
 	public void RemoveHand(
@@ -137,11 +128,7 @@ public class HandsController : MonoBehaviour
 			{
 				if (DoubleHandControllers.Count > 0)
 				{
-					foreach (var DHC in DoubleHandControllers)
-					{
-						DHC.PickActiveHand();
-						break;
-					}
+					DoubleHandControllers[0].PickActiveHand();
 				}
 				else
 				{

@@ -509,13 +509,7 @@ public static class PlayerSpawn
 			TriggerEventMessage.SendTo(newBody, eventType);
 
 			//can observe their new inventory
-			var dynamicItemStorage = newBody.GetComponent<DynamicItemStorage>();
-			if (dynamicItemStorage != null)
-			{
-				dynamicItemStorage.ServerAddObserverPlayer(newBody);
-				PlayerPopulateInventoryUIMessage.Send(dynamicItemStorage, newBody);
-			}
-
+			newBody.GetComponent<DynamicItemStorage>()?.ServerAddObserverPlayer(newBody);
 		}
 
 		var playerScript = newBody.GetComponent<PlayerScript>();

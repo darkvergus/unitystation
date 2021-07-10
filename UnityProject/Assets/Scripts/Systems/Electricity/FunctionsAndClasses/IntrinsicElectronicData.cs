@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using Systems.Electricity.NodeModules;
 
@@ -236,40 +235,37 @@ namespace Systems.Electricity
 			return $"{Categorytype}: {Data.ActualVoltage.ToEngineering("V")}, {Data.CurrentInWire.ToEngineering("A")}";
 		}
 
-		public virtual string ShowDetails()
+		public virtual void ShowDetails()
 		{
-			StringBuilder SB = new StringBuilder();
 			ElectricityFunctions.WorkOutActualNumbers(this);
-			SB.Append("connections " + (string.Join(",", Data.connections)));
-			SB.Append("\n");
-			SB.Append("Type " + (Categorytype.ToString()));
-			SB.Append("\n");
-			SB.Append("Can connect to " + (string.Join(",", CanConnectTo)));
-			SB.Append("\n");
-			SB.Append("WireEndA > " + WireEndA + " WireEndB > " + WireEndB);
+			Logger.Log("connections " + (string.Join(",", Data.connections)), Category.Electrical);
+			//Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
+			Logger.Log("Type " + (Categorytype.ToString()), Category.Electrical);
+			Logger.Log("Can connect to " + (string.Join(",", CanConnectTo)), Category.Electrical);
+			Logger.Log("WireEndA > " + WireEndA + " WireEndB > " + WireEndB, Category.Electrical);
 			foreach (var Supply in Data.SupplyDependent)
 			{
-
-				SB.Append("Supply > " + Supply.Key + "\n");
-				SB.Append("Upstream > ");
-				SB.Append(string.Join(",", Supply.Value.Upstream) + "\n");
-				SB.Append("Downstream > ");
-				SB.Append(string.Join(",", Supply.Value.Downstream) + "\n");
-				SB.Append("ResistanceGoingTo > ");
-				SB.Append(string.Join(",", Supply.Value.ResistanceGoingTo) + "\n");
-				SB.Append("ResistanceComingFrom > ");
-				SB.Append(string.Join(",", Supply.Value.ResistanceComingFrom) + "\n");
-				SB.Append( "CurrentComingFrom > ");
-				SB.Append(string.Join(",", Supply.Value.CurrentComingFrom) + "\n");
-				SB.Append("CurrentGoingTo > ");
-				SB.Append(string.Join(",", Supply.Value.CurrentGoingTo) + "\n");
-				SB.Append("SourceVoltages > ");
-				SB.Append(string.Join(",", Supply.Value.SourceVoltage) + "\n");
+				string ToLog;
+				ToLog = "Supply > " + Supply.Key + "\n";
+				ToLog += "Upstream > ";
+				ToLog += string.Join(",", Supply.Value.Upstream) + "\n";
+				ToLog += "Downstream > ";
+				ToLog += string.Join(",", Supply.Value.Downstream) + "\n";
+				ToLog += "ResistanceGoingTo > ";
+				ToLog += string.Join(",", Supply.Value.ResistanceGoingTo) + "\n";
+				ToLog += "ResistanceComingFrom > ";
+				ToLog += string.Join(",", Supply.Value.ResistanceComingFrom) + "\n";
+				ToLog += "CurrentComingFrom > ";
+				ToLog += string.Join(",", Supply.Value.CurrentComingFrom) + "\n";
+				ToLog += "CurrentGoingTo > ";
+				ToLog += string.Join(",", Supply.Value.CurrentGoingTo) + "\n";
+				ToLog += "SourceVoltages > ";
+				ToLog += string.Join(",", Supply.Value.SourceVoltage) + "\n";
+				Logger.Log(ToLog, Category.Electrical);
 			}
-			SB.Append(" ActualVoltage > " + Data.ActualVoltage
-			                              + " CurrentInWire > " + Data.CurrentInWire
-			                              + " EstimatedResistance >  " + Data.EstimatedResistance);
-			return SB.ToString();
+			Logger.Log(" ActualVoltage > " + Data.ActualVoltage
+					   + " CurrentInWire > " + Data.CurrentInWire
+					   + " EstimatedResistance >  " + Data.EstimatedResistance, Category.Electrical);
 		}
 
 		public void DestroyThisPlease()

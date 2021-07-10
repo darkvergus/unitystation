@@ -30,13 +30,12 @@ namespace Pipes
 				else
 				{
 					return (mixAndVolume);
-
 				}
 			}
 		}
 
 
-		[NonSerialized] public List<PipeData> ConnectedPipes = new List<PipeData>();
+		public List<PipeData> ConnectedPipes = new List<PipeData>();
 		public List<PipeData> Outputs = new List<PipeData>(); //Make sure to redirect to net if there is existence
 
 		public PipeNode pipeNode;

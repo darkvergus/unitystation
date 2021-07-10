@@ -334,7 +334,7 @@ public static class Inventory
 
 		//decide how it should be removed
 		var removeType = toPerform.RemoveType;
-		var holder = fromSlot.GetRootStorageOrPlayer();
+		var holder = fromSlot.Player;
 		var holderPushPull = holder?.GetComponent<PushPull>();
 		var parentContainer = holderPushPull == null ? null : holderPushPull.parentContainer;
 		if (parentContainer != null && removeType == InventoryRemoveType.Throw)

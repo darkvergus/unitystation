@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using Systems.Electricity;
 
@@ -21,18 +20,14 @@ namespace Items.Engineering
 			var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixinfo);
 			var matrix = interaction.Performer.GetComponentInParent<Matrix>();
 			var MetaDataNode = matrix.GetElectricalConnections(localPosInt);
-			StringBuilder SB = new StringBuilder();
-			SB.Append("MetaDataNodeCount " + MetaDataNode.Count);
-			SB.Append("\n");
+			Logger.Log("MetaDataNodeCount " + MetaDataNode.Count, Category.Matrix);
 
 			foreach (var D in MetaDataNode)
 			{
-				SB.Append(D.ShowDetails());
+				D.ShowDetails();
 			}
 			MetaDataNode.Clear();
 			ElectricalPool.PooledFPCList.Add(MetaDataNode);
-			Chat.AddExamineMsgFromServer(interaction.Performer, SB.ToString());
-			Logger.Log(SB.ToString());
 		}
 	}
 }
